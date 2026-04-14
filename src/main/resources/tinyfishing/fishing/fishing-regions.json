@@ -1,0 +1,215 @@
+[
+  {
+    "regionId": "zone1_plains",
+    "displayName": "Zone 1 Plains Waters",
+    "environmentIds": ["Env_Zone1_Plains"],
+    "fishEntries": [
+      { "targetId": "minnow", "weight": 60 },
+      { "targetId": "bluegill", "weight": 40 }
+    ],
+    "trashEntries": [
+      { "itemId": "Ingredient_Stick", "weight": 50 },
+      { "itemId": "Rubble_Stone", "weight": 30 },
+      { "itemId": "Plant_Flower_Water_Duckweed", "weight": 20 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Deco_Coral_Shell", "weight": 10 },
+      { "itemId": "Deco_Treasure", "weight": 2 }
+    ]
+  },
+  {
+    "regionId": "zone1_highlands",
+    "displayName": "Zone 1 Highland Waters",
+    "environmentIds": ["Env_Zone1_Forests", "Env_Zone1_Mountains", "Env_Zone1_Autumn"],
+    "fishEntries": [
+      { "targetId": "trout_rainbow", "weight": 55 },
+      { "targetId": "catfish", "weight": 45 }
+    ],
+    "trashEntries": [
+      { "itemId": "Ingredient_Stick", "weight": 35 },
+      { "itemId": "Rubble_Stone", "weight": 45 },
+      { "itemId": "Rubble_Stone_Medium", "weight": 20 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Ore_Copper_Stone", "weight": 8 },
+      { "itemId": "Deco_Coral_Shell_Swirly", "weight": 2 }
+    ]
+  },
+  {
+    "regionId": "zone1_swamps",
+    "displayName": "Zone 1 Swamp Waters",
+    "environmentIds": ["Env_Zone1_Swamps", "Env_Zone1_Azure"],
+    "fishEntries": [
+      { "targetId": "piranha", "weight": 40 },
+      { "targetId": "piranha_black", "weight": 25 },
+      { "targetId": "pike", "weight": 35 }
+    ],
+    "trashEntries": [
+      { "itemId": "Plant_Flower_Water_Duckweed", "weight": 40 },
+      { "itemId": "Ingredient_Stick", "weight": 35 },
+      { "itemId": "Rubble_Stone", "weight": 25 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Deco_Coral_Shell_Urchin", "weight": 8 },
+      { "itemId": "Deco_Starfish", "weight": 2 }
+    ]
+  },
+  {
+    "regionId": "zone1_shores",
+    "displayName": "Zone 1 Shores",
+    "environmentIds": ["Env_Zone1_Shores"],
+    "fishEntries": [
+      { "targetId": "clownfish", "weight": 24 },
+      { "targetId": "tang_blue", "weight": 18 },
+      { "targetId": "tang_chevron", "weight": 16 },
+      { "targetId": "tang_lemon_peel", "weight": 14 },
+      { "targetId": "tang_sailfin", "weight": 10 },
+      { "targetId": "pufferfish", "weight": 10 },
+      { "targetId": "lobster", "weight": 8 }
+    ],
+    "trashEntries": [
+      { "itemId": "Deco_Coral_Shell", "weight": 35 },
+      { "itemId": "Deco_Coral_Shell_Purple", "weight": 25 },
+      { "itemId": "Deco_Starfish", "weight": 20 },
+      { "itemId": "Ingredient_Stick", "weight": 20 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Deco_Treasure", "weight": 3 },
+      { "itemId": "Deco_Coral_Shell_Sanddollar", "weight": 10 }
+    ]
+  },
+  {
+    "regionId": "zone2_shores",
+    "displayName": "Zone 2 Shores",
+    "environmentIds": ["Env_Zone2_Shores"],
+    "fishEntries": [
+      { "targetId": "jellyfish_blue", "weight": 18 },
+      { "targetId": "jellyfish_cyan", "weight": 18 },
+      { "targetId": "jellyfish_green", "weight": 18 },
+      { "targetId": "jellyfish_yellow", "weight": 14 },
+      { "targetId": "jellyfish_red", "weight": 10 },
+      { "targetId": "jellyfish_man_of_war", "weight": 4 },
+      { "targetId": "tang_blue", "weight": 8 },
+      { "targetId": "clownfish", "weight": 6 },
+      { "targetId": "pufferfish", "weight": 4 }
+    ],
+    "trashEntries": [
+      { "itemId": "Deco_Coral_Shell", "weight": 35 },
+      { "itemId": "Deco_Coral_Shell_Urchin", "weight": 20 },
+      { "itemId": "Ingredient_Stick", "weight": 20 },
+      { "itemId": "Deco_Starfish", "weight": 25 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Deco_Treasure", "weight": 2 },
+      { "itemId": "Deco_Coral_Shell_Sanddollar", "weight": 10 }
+    ]
+  },
+  {
+    "regionId": "zone2_savanna",
+    "displayName": "Zone 2 Savanna Waters",
+    "environmentIds": ["Env_Zone2_Savanna"],
+    "fishEntries": [
+      { "targetId": "catfish", "weight": 65 },
+      { "targetId": "eel_moray", "weight": 35 }
+    ],
+    "trashEntries": [
+      { "itemId": "Ingredient_Stick", "weight": 40 },
+      { "itemId": "Rubble_Stone", "weight": 35 },
+      { "itemId": "Deco_Coral_Shell_Swirly", "weight": 25 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Ore_Silver_Stone", "weight": 7 },
+      { "itemId": "Deco_Treasure", "weight": 2 }
+    ]
+  },
+  {
+    "regionId": "zone2_desert_oasis",
+    "displayName": "Zone 2 Desert Oasis Waters",
+    "environmentIds": ["Env_Zone2_Deserts", "Env_Zone2_Oasis"],
+    "fishEntries": [
+      { "targetId": "piranha_black", "weight": 60 },
+      { "targetId": "trilobite_black", "weight": 40 }
+    ],
+    "trashEntries": [
+      { "itemId": "Rubble_Stone", "weight": 40 },
+      { "itemId": "Rubble_Stone_Medium", "weight": 35 },
+      { "itemId": "Ingredient_Stick", "weight": 25 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Ore_Gold_Stone", "weight": 8 },
+      { "itemId": "Deco_Coral_Shell_Sanddollar", "weight": 2 }
+    ]
+  },
+  {
+    "regionId": "zone3_shores",
+    "displayName": "Zone 3 Shores",
+    "environmentIds": ["Env_Zone3_Shores"],
+    "fishEntries": [
+      { "targetId": "frostgill", "weight": 35 },
+      { "targetId": "trilobite", "weight": 30 },
+      { "targetId": "snapjaw", "weight": 35 }
+    ],
+    "trashEntries": [
+      { "itemId": "Deco_Coral_Shell_Purple", "weight": 30 },
+      { "itemId": "Rubble_Stone", "weight": 35 },
+      { "itemId": "Ingredient_Stick", "weight": 35 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Deco_Treasure", "weight": 3 },
+      { "itemId": "Ore_Silver_Stone", "weight": 7 }
+    ]
+  },
+  {
+    "regionId": "zone3_tundra",
+    "displayName": "Zone 3 Tundra Waters",
+    "environmentIds": ["Env_Zone3_Tundra"],
+    "fishEntries": [
+      { "targetId": "bluegill", "weight": 35 },
+      { "targetId": "pike", "weight": 65 }
+    ],
+    "trashEntries": [
+      { "itemId": "Rubble_Stone", "weight": 45 },
+      { "itemId": "Ingredient_Stick", "weight": 30 },
+      { "itemId": "Deco_Coral_Shell", "weight": 25 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Ore_Silver_Stone", "weight": 7 },
+      { "itemId": "Deco_Starfish", "weight": 3 }
+    ]
+  },
+  {
+    "regionId": "zone3_highlands",
+    "displayName": "Zone 3 Highland Waters",
+    "environmentIds": ["Env_Zone3_Forests", "Env_Zone3_Mountains"],
+    "fishEntries": [
+      { "targetId": "salmon", "weight": 100 }
+    ],
+    "trashEntries": [
+      { "itemId": "Rubble_Stone", "weight": 50 },
+      { "itemId": "Ingredient_Stick", "weight": 30 },
+      { "itemId": "Rubble_Stone_Medium", "weight": 20 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Ore_Gold_Stone", "weight": 6 },
+      { "itemId": "Deco_Treasure", "weight": 2 }
+    ]
+  },
+  {
+    "regionId": "zone3_glacial",
+    "displayName": "Zone 3 Glacial Waters",
+    "environmentIds": ["Env_Zone3_Glacial"],
+    "fishEntries": [
+      { "targetId": "frostgill", "weight": 55 },
+      { "targetId": "trilobite", "weight": 45 }
+    ],
+    "trashEntries": [
+      { "itemId": "Rubble_Stone", "weight": 55 },
+      { "itemId": "Ingredient_Stick", "weight": 25 },
+      { "itemId": "Deco_Coral_Shell", "weight": 20 }
+    ],
+    "prizeEntries": [
+      { "itemId": "Ore_Gold_Stone", "weight": 7 },
+      { "itemId": "Deco_Coral_Shell_Sanddollar", "weight": 3 }
+    ]
+  }
+]

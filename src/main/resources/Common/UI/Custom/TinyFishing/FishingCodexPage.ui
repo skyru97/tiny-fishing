@@ -1,0 +1,106 @@
+$C = "../Common.ui";
+
+@TitleStyle = LabelStyle(
+  FontSize: 18,
+  VerticalAlignment: Center,
+  RenderUppercase: true,
+  TextColor: #dbe6ef,
+  FontName: "Secondary",
+  RenderBold: true,
+  LetterSpacing: 0.4
+);
+
+@SummaryCaptionStyle = LabelStyle(
+  FontSize: 12,
+  TextColor: #7f92a7,
+  RenderUppercase: true,
+  RenderBold: true,
+  LetterSpacing: 0.5
+);
+
+@SummaryValueStyle = LabelStyle(
+  FontSize: 15,
+  TextColor: #dbe6ef,
+  RenderBold: true,
+  Wrap: true
+);
+
+$C.@PageOverlay {
+  LayoutMode: Middle;
+
+  $C.@DecoratedContainer {
+    Anchor: (Height: 840, Width: 1180);
+
+    #Title {
+      Group {
+        LayoutMode: Center;
+
+        Label {
+          Style: (...@TitleStyle, FontName: "Default", RenderBold: true);
+          Text: "Tiny Fishing Fishdex";
+        }
+      }
+    }
+
+    #Content {
+      LayoutMode: Top;
+      Padding: (Full: 12);
+
+      Group {
+        Anchor: (Bottom: 12);
+        Background: (TexturePath: "../Pages/Memories/ContainerBackground.png", Border: 23);
+        Padding: (Horizontal: 20, Vertical: 14);
+        LayoutMode: Left;
+
+        Group {
+          LayoutMode: Top;
+
+          Label {
+            Style: @SummaryCaptionStyle;
+            Text: "Collection";
+          }
+
+          Label #Summary {
+            Style: @SummaryValueStyle;
+            Text: "0 / 0 fish discovered";
+          }
+        }
+
+        Group {
+          FlexWeight: 1;
+        }
+
+        Group {
+          LayoutMode: Top;
+
+          Label {
+            Style: @SummaryCaptionStyle;
+            Text: "Catalog";
+          }
+
+          Label {
+            Style: @SummaryValueStyle;
+            Text: "Known fish and ? entries";
+          }
+        }
+      }
+
+      Group {
+        FlexWeight: 1;
+        Background: (TexturePath: "../Pages/Memories/MemoriesRunes.png", Border: 15);
+        Padding: (Horizontal: 18, Vertical: 18);
+        LayoutMode: Top;
+
+        Group {
+          LayoutMode: TopScrolling;
+          ScrollbarStyle: $C.@DefaultScrollbarStyle;
+          FlexWeight: 1;
+
+          Group #FishList {
+            LayoutMode: LeftCenterWrap;
+          }
+        }
+      }
+    }
+  }
+}

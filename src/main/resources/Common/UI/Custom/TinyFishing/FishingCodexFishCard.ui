@@ -1,0 +1,91 @@
+$C = "../Common.ui";
+
+@FishNameStyle = LabelStyle(
+  Wrap: true,
+  HorizontalAlignment: Center,
+  TextColor: #dbe6ef,
+  FontName: "Secondary",
+  RenderBold: true,
+  RenderUppercase: true,
+  FontSize: 12,
+  LetterSpacing: 0.3
+);
+
+@BadgeStyle = LabelStyle(
+  FontSize: 10,
+  TextColor: #eef6ff,
+  RenderBold: true,
+  RenderUppercase: true,
+  HorizontalAlignment: Center,
+  VerticalAlignment: Center
+);
+
+@QuestionStyle = LabelStyle(
+  FontSize: 42,
+  TextColor: #eef6ff,
+  RenderBold: true,
+  HorizontalAlignment: Center,
+  VerticalAlignment: Center,
+  FontName: "Secondary"
+);
+
+Group {
+  Anchor: (Width: 164, Height: 192, Right: 14, Bottom: 14);
+
+  Group {
+    Anchor: (Full: 0);
+    Background: (TexturePath: "../Pages/Memories/Tiles/TileDefault.png", Border: 8);
+  }
+
+  Group {
+    LayoutMode: Middle;
+    Anchor: (Top: 14, Left: 14, Right: 14, Height: 102);
+
+    AssetImage #Icon {
+      Anchor: (Width: 96, Height: 96);
+      FallbackTexturePath: "../Pages/Memories/MissingIcon.png";
+    }
+
+    Label #QuestionMark {
+      Visible: false;
+      Style: @QuestionStyle;
+      Text: "?";
+    }
+  }
+
+  Group #DarkOverlay {
+    Visible: false;
+    Anchor: (Top: 14, Left: 14, Right: 14, Height: 102);
+    Background: (Color: #081018(0.62));
+  }
+
+  Group #DiscoveredLabel {
+    Visible: false;
+    Anchor: (Top: 12, Left: 12);
+    Background: (Color: #10351f(0.92));
+    Padding: (Horizontal: 7, Vertical: 4);
+
+    Label {
+      Style: @BadgeStyle;
+      Text: "Found";
+    }
+  }
+
+  Group #UnknownLabel {
+    Visible: false;
+    Anchor: (Top: 12, Left: 12);
+    Background: (Color: #122133(0.92));
+    Padding: (Horizontal: 7, Vertical: 4);
+
+    Label {
+      Style: @BadgeStyle;
+      Text: "Unknown";
+    }
+  }
+
+  Label #Name {
+    Anchor: (Left: 12, Right: 12, Bottom: 14, Height: 42);
+    Style: @FishNameStyle;
+    Text: "?";
+  }
+}

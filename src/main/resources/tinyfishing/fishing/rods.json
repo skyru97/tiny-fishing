@@ -1,0 +1,12 @@
+[
+  {
+    "id": "wooden_rod",
+    "displayName": "Tiny Fishing Rod",
+    "itemId": "TinyFishing_Rod",
+    "castRange": 12.0,
+    "biteWindowSeconds": 4.0,
+    "minBiteDelaySeconds": 2.0,
+    "maxBiteDelaySeconds": 5.0,
+    "tags": ["starter"]
+  }
+]

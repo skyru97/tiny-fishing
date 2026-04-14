@@ -1,0 +1,103 @@
+package com.tinyfishing.ui;
+
+import com.tinyfishing.component.FishingPlayerDataComponent;
+import com.tinyfishing.config.TinyFishingConfig;
+import com.tinyfishing.item.CodexEntryDefinition;
+import com.tinyfishing.item.FishDefinition;
+import com.hypixel.hytale.component.ComponentType;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.entity.entities.player.pages.BasicCustomUIPage;
+import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public final class FishingCodexPage extends BasicCustomUIPage {
+    private static final String PAGE_PATH = "TinyFishing/FishingCodexPage.ui";
+    private static final String CARD_PATH = "TinyFishing/FishingCodexFishCard.ui";
+    private static final String UNKNOWN_NAME = "?";
+
+    private final Ref<EntityStore> playerEntityRef;
+    private final Store<EntityStore> store;
+    private final ComponentType<EntityStore, FishingPlayerDataComponent> dataType;
+    private final List<CatalogEntry> entries;
+
+    public FishingCodexPage(
+        PlayerRef playerRef,
+        Ref<EntityStore> playerEntityRef,
+        Store<EntityStore> store,
+        ComponentType<EntityStore, FishingPlayerDataComponent> dataType,
+        TinyFishingConfig config
+    ) {
+        super(playerRef, CustomPageLifetime.CanDismiss);
+        this.playerEntityRef = playerEntityRef;
+        this.store = store;
+        this.dataType = dataType;
+        this.entries = buildEntries(config);
+    }
+
+    @Override
+    public void build(UICommandBuilder uiCommandBuilder) {
+        FishingPlayerDataComponent data = store.ensureAndGetComponent(playerEntityRef, dataType);
+        uiCommandBuilder.append(PAGE_PATH);
+        uiCommandBuilder.clear("#FishList");
+        uiCommandBuilder.set("#Summary.Text", buildSummaryText(data));
+
+        for (int index = 0; index < entries.size(); index++) {
+            CatalogEntry entry = entries.get(index);
+            boolean discovered = data.hasDiscovered(entry.codexEntryId());
+            String selector = "#FishList[" + index + "]";
+
+            uiCommandBuilder.append("#FishList", CARD_PATH);
+            uiCommandBuilder.set(selector + " #Name.Text", discovered ? entry.displayName() : UNKNOWN_NAME);
+            uiCommandBuilder.set(selector + " #QuestionMark.Visible", !discovered);
+            uiCommandBuilder.set(selector + " #DarkOverlay.Visible", !discovered);
+            uiCommandBuilder.set(selector + " #DiscoveredLabel.Visible", discovered);
+            uiCommandBuilder.set(selector + " #UnknownLabel.Visible", !discovered);
+
+            if (discovered && hasText(entry.iconPath())) {
+                uiCommandBuilder.set(selector + " #Icon.AssetPath", entry.iconPath());
+            } else {
+                uiCommandBuilder.setNull(selector + " #Icon.AssetPath");
+            }
+        }
+    }
+
+    private String buildSummaryText(FishingPlayerDataComponent data) {
+        int discovered = 0;
+        for (CatalogEntry entry : entries) {
+            if (data.hasDiscovered(entry.codexEntryId())) {
+                discovered++;
+            }
+        }
+        return discovered + " / " + entries.size() + " fish discovered";
+    }
+
+    private List<CatalogEntry> buildEntries(TinyFishingConfig config) {
+        Map<String, CodexEntryDefinition> codexById = new LinkedHashMap<>();
+        for (CodexEntryDefinition codexEntry : config.codexEntries()) {
+            codexById.put(codexEntry.id(), codexEntry);
+        }
+
+        List<CatalogEntry> orderedEntries = new ArrayList<>();
+        for (FishDefinition fishDefinition : config.fishDefinitions()) {
+            CodexEntryDefinition codexEntry = codexById.get(fishDefinition.codexEntryId());
+            String displayName = codexEntry == null || !hasText(codexEntry.displayName()) ? fishDefinition.displayName() : codexEntry.displayName();
+            String iconPath = codexEntry == null ? null : codexEntry.iconPath();
+            orderedEntries.add(new CatalogEntry(fishDefinition.codexEntryId(), displayName, iconPath));
+        }
+        return List.copyOf(orderedEntries);
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
+    }
+
+    private record CatalogEntry(String codexEntryId, String displayName, String iconPath) {
+    }
+}

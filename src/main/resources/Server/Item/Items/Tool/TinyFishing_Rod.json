@@ -1,0 +1,72 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.TinyFishing_Rod.name",
+    "Description": "server.items.TinyFishing_Rod.description"
+  },
+  "Categories": [
+    "Tool"
+  ],
+  "Quality": "Common",
+  "ItemLevel": 1,
+  "Model": "Items/Tools/Fishing_Rod/TinyFishing_Rod.blockymodel",
+  "Texture": "Items/Tools/Fishing_Rod/TinyFishing_Rod_Texture.png",
+  "Recipe": {
+    "TimeSeconds": 0,
+    "KnowledgeRequired": false,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Stick",
+        "Quantity": 3
+      },
+      {
+        "ItemId": "Ingredient_Fibre",
+        "Quantity": 2
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Workbench",
+        "Type": "Crafting",
+        "Categories": [
+          "Workbench_Tools"
+        ]
+      }
+    ]
+  },
+  "Tool": {},
+  "Interactions": {
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "TinyFishingFish"
+        }
+      ]
+    }
+  },
+  "Icon": "Icons/ItemsGenerated/TinyFishing_Rod.png",
+  "PlayerAnimationsId": "Item",
+  "Utility": {
+    "Compatible": true
+  },
+  "IconProperties": {
+    "Scale": 0.6,
+    "Translation": [
+      10.0,
+      -12.0
+    ],
+    "Rotation": [
+      30,
+      250,
+      0
+    ]
+  },
+  "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
+  "MaxDurability": 0,
+  "Tags": {
+    "Type": [
+      "Tool",
+      "FishingRod"
+    ]
+  },
+  "ItemSoundSetId": "ISS_Weapons_Wood"
+}

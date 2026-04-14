@@ -1,0 +1,4 @@
+server.items.TinyFishing_Rod.name = Tiny Fishing Rod
+server.items.TinyFishing_Rod.description = A simple rod for a tiny, focused fishing loop.
+server.items.TinyFishing_Bobber_Item.name = Fishing Bobber
+server.items.TinyFishing_Bobber_Item.description = A simple red and white float used by Tiny Fishing.

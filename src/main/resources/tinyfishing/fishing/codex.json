@@ -1,0 +1,158 @@
+[
+  {
+    "id": "minnow",
+    "displayName": "Minnow",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Minnow.png",
+    "hint": "Common in calm freshwater plains and rivers."
+  },
+  {
+    "id": "bluegill",
+    "displayName": "Bluegill",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Bluegill.png",
+    "hint": "Found in warm lowland freshwater."
+  },
+  {
+    "id": "trout_rainbow",
+    "displayName": "Rainbow Trout",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Trout_Rainbow.png",
+    "hint": "Likes cool, fast highland water."
+  },
+  {
+    "id": "catfish",
+    "displayName": "Catfish",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Catfish.png",
+    "hint": "A heavier freshwater catch from forested water."
+  },
+  {
+    "id": "piranha",
+    "displayName": "Piranha",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Piranha.png",
+    "hint": "Thrives in murky swamp channels."
+  },
+  {
+    "id": "piranha_black",
+    "displayName": "Black Piranha",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Piranha_Black.png",
+    "hint": "A darker swamp predator."
+  },
+  {
+    "id": "pike",
+    "displayName": "Pike",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Pike.png",
+    "hint": "A long freshwater hunter."
+  },
+  {
+    "id": "clownfish",
+    "displayName": "Clownfish",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Clownfish.png",
+    "hint": "A bright catch from warm shore waters."
+  },
+  {
+    "id": "tang_blue",
+    "displayName": "Blue Tang",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Tang_Blue.png",
+    "hint": "Common around coastal shallows."
+  },
+  {
+    "id": "tang_chevron",
+    "displayName": "Chevron Tang",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Tang_Chevron.png",
+    "hint": "A striped reef fish."
+  },
+  {
+    "id": "tang_lemon_peel",
+    "displayName": "Lemon Peel Tang",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Tang_Lemon_Peel.png",
+    "hint": "Found along tropical coastlines."
+  },
+  {
+    "id": "tang_sailfin",
+    "displayName": "Sailfin Tang",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Tang_Sailfin.png",
+    "hint": "A broader coastal tang."
+  },
+  {
+    "id": "pufferfish",
+    "displayName": "Pufferfish",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Pufferfish.png",
+    "hint": "An unusual shore catch."
+  },
+  {
+    "id": "lobster",
+    "displayName": "Lobster",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Lobster.png",
+    "hint": "A sturdier catch from coastal floors."
+  },
+  {
+    "id": "jellyfish_blue",
+    "displayName": "Blue Jellyfish",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Jellyfish_Blue.png",
+    "hint": "Drifts in warm shoreline currents."
+  },
+  {
+    "id": "jellyfish_cyan",
+    "displayName": "Cyan Jellyfish",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Jellyfish_Cyan.png",
+    "hint": "Often found in bright tropical water."
+  },
+  {
+    "id": "jellyfish_green",
+    "displayName": "Green Jellyfish",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Jellyfish_Green.png",
+    "hint": "A common drifting ocean catch."
+  },
+  {
+    "id": "jellyfish_yellow",
+    "displayName": "Yellow Jellyfish",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Jellyfish_Yellow.png",
+    "hint": "Seen in warmer coastal current bands."
+  },
+  {
+    "id": "jellyfish_red",
+    "displayName": "Red Jellyfish",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Jellyfish_Red.png",
+    "hint": "A brighter tropical jelly catch."
+  },
+  {
+    "id": "jellyfish_man_of_war",
+    "displayName": "Man O' War",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Jellyfish_Man_Of_War.png",
+    "hint": "A rare dangerous drift-catcher."
+  },
+  {
+    "id": "eel_moray",
+    "displayName": "Moray Eel",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Eel_Moray.png",
+    "hint": "Lives in warmer savanna water."
+  },
+  {
+    "id": "trilobite_black",
+    "displayName": "Black Trilobite",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Trilobite_Black.png",
+    "hint": "An unusual fossil-like desert oasis catch."
+  },
+  {
+    "id": "frostgill",
+    "displayName": "Frostgill",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Frostgill.png",
+    "hint": "Thrives in colder waters."
+  },
+  {
+    "id": "trilobite",
+    "displayName": "Trilobite",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Trilobite.png",
+    "hint": "Found in harsh northern coasts and glacial water."
+  },
+  {
+    "id": "snapjaw",
+    "displayName": "Snapjaw",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Snapjaw.png",
+    "hint": "A dangerous cold-shore predator."
+  },
+  {
+    "id": "salmon",
+    "displayName": "Salmon",
+    "iconPath": "UI/Custom/Pages/Memories/npcs/Salmon.png",
+    "hint": "A strong highland coldwater fish."
+  }
+]

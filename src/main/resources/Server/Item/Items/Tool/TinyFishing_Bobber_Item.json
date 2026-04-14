@@ -1,0 +1,31 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.TinyFishing_Bobber_Item.name",
+    "Description": "server.items.TinyFishing_Bobber_Item.description"
+  },
+  "Categories": [
+    "Ingredient"
+  ],
+  "Scale": 0.5,
+  "Model": "Items/Tools/Fishing_Rod/TinyFishing_Float.blockymodel",
+  "Texture": "Items/Tools/Fishing_Rod/TinyFishing_Float_Texture.png",
+  "Icon": "Icons/ItemsGenerated/TinyFishing_Bobber_Item.png",
+  "IconProperties": {
+    "Scale": 0.35,
+    "Translation": [
+      2.0,
+      -10.0
+    ],
+    "Rotation": [
+      18,
+      215,
+      0
+    ]
+  },
+  "MaxStack": 1,
+  "ItemEntity": {
+    "ParticleSystemId": null,
+    "ShowItemParticles": false
+  },
+  "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left_Floating.blockyanim"
+}
