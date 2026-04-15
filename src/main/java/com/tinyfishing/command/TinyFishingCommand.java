@@ -58,7 +58,7 @@ public final class TinyFishingCommand extends AbstractCommandCollection {
         private final TinyFishingPlugin plugin;
 
         private TinyFishingGiveRodCommand(TinyFishingPlugin plugin) {
-            super("giverod", "Give the Tiny Fishing rod");
+            super("giverod", "Give all Tiny Fishing rods");
             this.plugin = plugin;
         }
 
@@ -69,9 +69,18 @@ public final class TinyFishingCommand extends AbstractCommandCollection {
                 return;
             }
 
-            RodDefinition rod = plugin.getConfig().rods().getFirst();
-            player.giveItem(new ItemStack(rod.itemId(), 1), senderRef, store);
-            context.sendMessage(com.hypixel.hytale.server.core.Message.raw("Given 1x " + rod.displayName() + "."));
+            StringBuilder names = new StringBuilder();
+            int givenCount = 0;
+            for (RodDefinition rod : plugin.getConfig().rods()) {
+                player.giveItem(new ItemStack(rod.itemId(), 1), senderRef, store);
+                if (givenCount > 0) {
+                    names.append(", ");
+                }
+                names.append(rod.displayName());
+                givenCount++;
+            }
+
+            context.sendMessage(com.hypixel.hytale.server.core.Message.raw("Given " + givenCount + " rod(s): " + names + "."));
         }
     }
 }

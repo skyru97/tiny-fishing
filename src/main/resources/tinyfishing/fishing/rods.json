@@ -8,5 +8,15 @@
     "minBiteDelaySeconds": 2.0,
     "maxBiteDelaySeconds": 5.0,
     "tags": ["starter"]
+  },
+  {
+    "id": "copper_rod",
+    "displayName": "Copper Fishing Rod",
+    "itemId": "TinyFishing_Copper_Rod",
+    "castRange": 13.0,
+    "biteWindowSeconds": 4.2,
+    "minBiteDelaySeconds": 1.9,
+    "maxBiteDelaySeconds": 4.8,
+    "tags": ["metal", "tier1"]
   }
 ]
