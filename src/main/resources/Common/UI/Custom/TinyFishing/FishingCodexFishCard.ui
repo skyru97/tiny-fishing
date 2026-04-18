@@ -2,26 +2,17 @@ $C = "../Common.ui";
 
 @FishNameStyle = LabelStyle(
   Wrap: true,
-  HorizontalAlignment: Center,
   TextColor: #dbe6ef,
   FontName: "Secondary",
   RenderBold: true,
-  RenderUppercase: true,
-  FontSize: 12,
-  LetterSpacing: 0.3
-);
-
-@BadgeStyle = LabelStyle(
-  FontSize: 10,
-  TextColor: #eef6ff,
-  RenderBold: true,
-  RenderUppercase: true,
+  FontSize: 14,
+  LetterSpacing: 0.1,
   HorizontalAlignment: Center,
   VerticalAlignment: Center
 );
 
 @QuestionStyle = LabelStyle(
-  FontSize: 42,
+  FontSize: 44,
   TextColor: #eef6ff,
   RenderBold: true,
   HorizontalAlignment: Center,
@@ -30,62 +21,69 @@ $C = "../Common.ui";
 );
 
 Group {
-  Anchor: (Width: 164, Height: 192, Right: 14, Bottom: 14);
+  Anchor: (Width: 188, Height: 210, Right: 14, Bottom: 14);
 
   Group {
     Anchor: (Full: 0);
-    Background: (TexturePath: "../Pages/Memories/Tiles/TileDefault.png", Border: 8);
+    Background: #101b29(0.92);
+  }
+
+  Group #AccentUnknown {
+    Anchor: (Left: 0, Top: 0, Bottom: 0, Width: 6);
+    Background: #344558;
+    Visible: true;
+  }
+
+  Group #AccentCommon {
+    Anchor: (Left: 0, Top: 0, Bottom: 0, Width: 6);
+    Background: #5b8def;
+    Visible: false;
+  }
+
+  Group #AccentUncommon {
+    Anchor: (Left: 0, Top: 0, Bottom: 0, Width: 6);
+    Background: #46b37b;
+    Visible: false;
+  }
+
+  Group #AccentRare {
+    Anchor: (Left: 0, Top: 0, Bottom: 0, Width: 6);
+    Background: #d4a449;
+    Visible: false;
   }
 
   Group {
-    LayoutMode: Middle;
-    Anchor: (Top: 14, Left: 14, Right: 14, Height: 102);
+    Anchor: (Left: 16, Top: 16, Right: 16, Height: 132);
+    Background: #0b1420(0.56);
+
+    Group #UnknownPlate {
+      Anchor: (Left: 31, Top: 19, Width: 94, Height: 94);
+      Background: #0f1824(0.88);
+      Visible: false;
+    }
 
     AssetImage #Icon {
-      Anchor: (Width: 96, Height: 96);
+      Anchor: (Left: 31, Top: 19, Width: 94, Height: 94);
       FallbackTexturePath: "../Pages/Memories/MissingIcon.png";
     }
 
     Label #QuestionMark {
       Visible: false;
+      Anchor: (Full: 0);
       Style: @QuestionStyle;
       Text: "?";
     }
   }
 
-  Group #DarkOverlay {
-    Visible: false;
-    Anchor: (Top: 14, Left: 14, Right: 14, Height: 102);
-    Background: (Color: #081018(0.62));
-  }
+  Group #Details {
+    Anchor: (Left: 16, Top: 158, Right: 16, Height: 36);
+    LayoutMode: Middle;
+    Visible: true;
 
-  Group #DiscoveredLabel {
-    Visible: false;
-    Anchor: (Top: 12, Left: 12);
-    Background: (Color: #10351f(0.92));
-    Padding: (Horizontal: 7, Vertical: 4);
-
-    Label {
-      Style: @BadgeStyle;
-      Text: "Found";
+    Label #Name {
+      Anchor: (Height: 32);
+      Style: @FishNameStyle;
+      Text: "";
     }
-  }
-
-  Group #UnknownLabel {
-    Visible: false;
-    Anchor: (Top: 12, Left: 12);
-    Background: (Color: #122133(0.92));
-    Padding: (Horizontal: 7, Vertical: 4);
-
-    Label {
-      Style: @BadgeStyle;
-      Text: "Unknown";
-    }
-  }
-
-  Label #Name {
-    Anchor: (Left: 12, Right: 12, Bottom: 14, Height: 42);
-    Style: @FishNameStyle;
-    Text: "?";
   }
 }

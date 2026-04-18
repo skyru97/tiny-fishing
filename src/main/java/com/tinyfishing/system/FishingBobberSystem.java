@@ -86,7 +86,7 @@ public final class FishingBobberSystem extends EntityTickingSystem<EntityStore> 
     private static Vector3d computeTargetPosition(FishingBobberComponent bobber, float deltaSeconds) {
         float nextTime = bobber.getBiteAnimationTime() + deltaSeconds;
         bobber.setBiteAnimationTime(nextTime);
-        Vector3d targetPosition = bobber.getAnchorPosition().clone();
+        Vector3d targetPosition = bobber.getAnchorPosition().clone().add(0.0, -bobber.getSinkDepth(), 0.0);
         if (!bobber.isBiting()) {
             bobber.setSplashCooldown(0.0f);
             double bobOffset = Math.sin(nextTime * IDLE_BOB_FREQUENCY) * IDLE_BOB_HEIGHT;

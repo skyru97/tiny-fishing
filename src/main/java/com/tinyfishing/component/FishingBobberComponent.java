@@ -10,6 +10,7 @@ public final class FishingBobberComponent implements Component<EntityStore> {
     private Ref<EntityStore> ownerPlayerRef;
     private float biteAnimationTime;
     private float splashCooldown;
+    private float sinkDepth;
     private boolean biting;
 
     public FishingBobberComponent() {
@@ -56,6 +57,14 @@ public final class FishingBobberComponent implements Component<EntityStore> {
         this.splashCooldown = splashCooldown;
     }
 
+    public float getSinkDepth() {
+        return sinkDepth;
+    }
+
+    public void setSinkDepth(float sinkDepth) {
+        this.sinkDepth = sinkDepth;
+    }
+
     public boolean isBiting() {
         return biting;
     }
@@ -69,6 +78,7 @@ public final class FishingBobberComponent implements Component<EntityStore> {
         FishingBobberComponent clone = new FishingBobberComponent(anchorPosition, ownerPlayerRef);
         clone.biteAnimationTime = biteAnimationTime;
         clone.splashCooldown = splashCooldown;
+        clone.sinkDepth = sinkDepth;
         clone.biting = biting;
         return clone;
     }

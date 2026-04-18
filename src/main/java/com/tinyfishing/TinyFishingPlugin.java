@@ -85,7 +85,7 @@ public final class TinyFishingPlugin extends JavaPlugin {
         }
 
         runtime.fishingService().cleanupOrphanedBobbers(store);
-        player.sendMessage(Message.raw("Tiny Fishing ready. Use /tf codex to view your fishdex."));
+        player.sendMessage(Message.raw("Tiny Fishing ready. Right click your rod away from water or use /tf codex to open your fishing codex."));
         store.putComponent(event.getPlayerRef(), fishingPlayerDataType, data);
     }
 

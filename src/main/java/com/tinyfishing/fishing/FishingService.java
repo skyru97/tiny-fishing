@@ -51,6 +51,7 @@ public final class FishingService {
     private static final String CAST_SPLASH_PARTICLE_ID = "Water_Can_Splash";
     private static final String BOBBER_ITEM_ID = "TinyFishing_Bobber_Item";
     private static final double BOBBER_WATERLINE_OFFSET = 0.18;
+    private static final float MAX_BOBBER_SINK_DEPTH = 0.45f;
     private static final float BOBBER_PICKUP_DELAY_SECONDS = 60.0f;
     private static final float LOOT_VISUAL_TRAVEL_SECONDS = 0.45f;
     private static final float LOOT_VISUAL_SCALE = 1.75f;
@@ -103,21 +104,56 @@ public final class FishingService {
         scheduler.shutdownNow();
     }
 
-    public boolean handleInteractionCast(Ref<EntityStore> playerEntityRef, String heldItemId, Vector3i targetBlock) {
+    public void handleCastInteraction(
+        Ref<EntityStore> playerEntityRef,
+        String heldItemId,
+        Vector3i targetBlock,
+        Vector3d preciseTargetPosition
+    ) {
         Store<EntityStore> store = playerEntityRef.getStore();
         Player player = store.getComponent(playerEntityRef, Player.getComponentType());
         PlayerRef playerRef = store.getComponent(playerEntityRef, PlayerRef.getComponentType());
         if (player == null || playerRef == null) {
-            return false;
+            return;
         }
 
-        Optional<FishingCastContext> context = contextResolver.resolveContext(playerEntityRef, heldItemId, targetBlock);
+        FishingSession session = sessionsByPlayerId.get(playerRef.getUuid());
+        if (session == null) {
+            handleInteractionCast(playerEntityRef, heldItemId, targetBlock, preciseTargetPosition, player, playerRef, store);
+            return;
+        }
+
+        triggerBiteIfNeeded(store, player, playerRef, session);
+        if (session.getState() == FishingSessionState.WAITING_FOR_BITE) {
+            setHud(player, playerRef, "Too early. Keep waiting.");
+            return;
+        }
+
+        if (session.isInTensionWindow(Instant.now())) {
+            completeCatch(playerEntityRef, player, playerRef, session, store);
+            return;
+        }
+
+        clearSession(store, session);
+        player.sendMessage(Message.raw("Too slow. The fish got away."));
+    }
+
+    private void handleInteractionCast(
+        Ref<EntityStore> playerEntityRef,
+        String heldItemId,
+        Vector3i targetBlock,
+        Vector3d preciseTargetPosition,
+        Player player,
+        PlayerRef playerRef,
+        Store<EntityStore> store
+    ) {
+        Optional<FishingCastContext> context = contextResolver.resolveContext(playerEntityRef, heldItemId, targetBlock, preciseTargetPosition);
         if (context.isEmpty()) {
             if (heldItemId != null && isConfiguredRod(heldItemId)) {
                 player.sendMessage(Message.raw("Aim directly at water to cast."));
                 setHud(player, playerRef, "No valid water target.");
             }
-            return false;
+            return;
         }
 
         UUID playerId = playerRef.getUuid();
@@ -128,12 +164,13 @@ public final class FishingService {
         Instant now = Instant.now();
         double biteDelaySeconds = castContext.rod().minBiteDelaySeconds()
             + (random.nextDouble() * (castContext.rod().maxBiteDelaySeconds() - castContext.rod().minBiteDelaySeconds()));
+        double tensionWindowSeconds = castContext.rod().biteWindowSeconds();
         FishingSession session = new FishingSession(
             playerId,
             playerEntityRef,
             castContext,
             now.plusMillis((long) (biteDelaySeconds * 1000.0)),
-            now.plusMillis((long) ((biteDelaySeconds + castContext.rod().biteWindowSeconds()) * 1000.0))
+            now.plusMillis((long) ((biteDelaySeconds + tensionWindowSeconds) * 1000.0))
         );
 
         spawnBobber(store, session);
@@ -141,50 +178,6 @@ public final class FishingService {
         scheduleBite(store, session);
         scheduleExpiry(store, session);
         setHud(player, playerRef, "Cast out. Watch the water.");
-        return true;
-    }
-
-    public void handleInteractionReel(Ref<EntityStore> playerEntityRef) {
-        Store<EntityStore> store = playerEntityRef.getStore();
-        Player player = store.getComponent(playerEntityRef, Player.getComponentType());
-        PlayerRef playerRef = store.getComponent(playerEntityRef, PlayerRef.getComponentType());
-        if (player == null || playerRef == null) {
-            return;
-        }
-
-        FishingSession session = sessionsByPlayerId.get(playerRef.getUuid());
-        if (session == null) {
-            return;
-        }
-
-        triggerBiteIfNeeded(store, player, playerRef, session);
-        Instant now = Instant.now();
-        if (session.getState() == FishingSessionState.WAITING_FOR_BITE) {
-            setHud(player, playerRef, "Too early. Keep waiting.");
-            return;
-        }
-
-        if (!session.isInReelWindow(now)) {
-            clearSession(store, session);
-            player.sendMessage(Message.raw("Too slow. The fish escaped."));
-            setHud(player, playerRef, "The bite window closed.");
-            return;
-        }
-
-        FishingPlayerDataComponent data = store.ensureAndGetComponent(playerEntityRef, dataType);
-        CatchType catchType = rollCatchType();
-        CatchReward reward = lootTableService.rollReward(session.getCastContext().region().regionId(), catchType);
-
-        giveRewardWithVisual(playerEntityRef, player, reward, getBobberPosition(session), store);
-
-        if (reward.fishId() != null) {
-            codexService.discover(data, configFishCodexEntryId(reward.fishId()));
-        }
-        store.putComponent(playerEntityRef, dataType, data);
-
-        clearSession(store, session);
-        player.sendMessage(Message.raw("Caught: " + reward.displayName()));
-        setHud(player, playerRef, buildSuccessHudText(reward));
     }
 
     public boolean hasActiveSession(UUID playerUuid) {
@@ -236,7 +229,8 @@ public final class FishingService {
 
         FishingSession session = sessionsByPlayerId.get(playerRef.getUuid());
         if (session != null && session.getPlayerEntityRef().isValid()) {
-            clearSession(session.getPlayerEntityRef().getStore(), session);
+            Store<EntityStore> store = session.getPlayerEntityRef().getStore();
+            runOnWorld(store, session, () -> clearSession(store, session));
             return;
         }
 
@@ -308,8 +302,9 @@ public final class FishingService {
 
         session.markBiteTriggered();
         cancelTask(biteTasksByPlayerId.remove(session.getPlayerUuid()));
-        setBobberBiting(store, session, true);
-        setHud(player, playerRef, "Bite! Use the rod again to reel.");
+        syncBobberToSession(store, session);
+        player.sendMessage(Message.raw("Fish on. Reel in now!"));
+        setHud(player, playerRef, "Fish on. Right click now!");
     }
 
     private void scheduleBite(Store<EntityStore> store, FishingSession session) {
@@ -343,14 +338,12 @@ public final class FishingService {
             }
             Player player = store.getComponent(session.getPlayerEntityRef(), Player.getComponentType());
             PlayerRef playerRef = store.getComponent(session.getPlayerEntityRef(), PlayerRef.getComponentType());
-            boolean biteWasActive = session.getState() == FishingSessionState.REEL_WINDOW;
+            boolean biteWasActive = session.getState() == FishingSessionState.TENSION_ACTIVE;
             clearSession(store, session);
             if (player != null && playerRef != null) {
                 if (biteWasActive) {
                     player.sendMessage(Message.raw("The fish slipped away."));
-                    setHud(player, playerRef, "The fish escaped.");
                 } else {
-                    setHud(player, playerRef, "Cast expired.");
                 }
             }
         }), delayMillis, TimeUnit.MILLISECONDS);
@@ -445,7 +438,23 @@ public final class FishingService {
         if (!biting) {
             bobber.setBiteAnimationTime(0.0f);
             bobber.setSplashCooldown(0.0f);
+            bobber.setSinkDepth(0.0f);
         }
+        store.putComponent(session.getBobberRef(), bobberType, bobber);
+    }
+
+    private void syncBobberToSession(Store<EntityStore> store, FishingSession session) {
+        if (session.getBobberRef() == null || !session.getBobberRef().isValid()) {
+            return;
+        }
+
+        FishingBobberComponent bobber = store.getComponent(session.getBobberRef(), bobberType);
+        if (bobber == null) {
+            return;
+        }
+
+        bobber.setBiting(session.getState() == FishingSessionState.TENSION_ACTIVE);
+        bobber.setSinkDepth(session.getState() == FishingSessionState.TENSION_ACTIVE ? MAX_BOBBER_SINK_DEPTH * 0.6f : 0.0f);
         store.putComponent(session.getBobberRef(), bobberType, bobber);
     }
 
@@ -503,6 +512,29 @@ public final class FishingService {
 
     private Vector3d getBobberPosition(FishingSession session) {
         return new Vector3d(session.getCastContext().targetPosition()).add(0.0, BOBBER_WATERLINE_OFFSET, 0.0);
+    }
+
+    private void completeCatch(
+        Ref<EntityStore> playerEntityRef,
+        Player player,
+        PlayerRef playerRef,
+        FishingSession session,
+        Store<EntityStore> store
+    ) {
+        FishingPlayerDataComponent data = store.ensureAndGetComponent(playerEntityRef, dataType);
+        CatchType catchType = rollCatchType();
+        CatchReward reward = lootTableService.rollReward(session.getCastContext().region().regionId(), catchType);
+
+        giveRewardWithVisual(playerEntityRef, player, reward, getBobberPosition(session), store);
+
+        if (reward.fishId() != null) {
+            codexService.discover(data, configFishCodexEntryId(reward.fishId()));
+        }
+        store.putComponent(playerEntityRef, dataType, data);
+
+        clearSession(store, session);
+        player.sendMessage(Message.raw("Caught: " + reward.displayName()));
+        player.sendMessage(Message.raw(buildSuccessHudText(reward)));
     }
 
     private void cancelTask(ScheduledFuture<?> task) {

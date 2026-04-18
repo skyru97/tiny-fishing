@@ -16,14 +16,21 @@
     "Input": [
       {
         "ItemId": "Ingredient_Stick",
-        "Quantity": 3
+        "Quantity": 2
       },
       {
         "ItemId": "Ingredient_Fibre",
-        "Quantity": 2
+        "Quantity": 1
       }
     ],
     "BenchRequirement": [
+      {
+        "Id": "Fieldcraft",
+        "Type": "Crafting",
+        "Categories": [
+          "Tools"
+        ]
+      },
       {
         "Id": "Workbench",
         "Type": "Crafting",

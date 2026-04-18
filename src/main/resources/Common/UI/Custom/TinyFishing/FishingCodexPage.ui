@@ -1,105 +1,102 @@
 $C = "../Common.ui";
 
 @TitleStyle = LabelStyle(
-  FontSize: 18,
-  VerticalAlignment: Center,
-  RenderUppercase: true,
-  TextColor: #dbe6ef,
+  FontSize: 30,
+  TextColor: #eef6ff,
   FontName: "Secondary",
   RenderBold: true,
-  LetterSpacing: 0.4
+  LetterSpacing: 0.12
 );
 
-@SummaryCaptionStyle = LabelStyle(
-  FontSize: 12,
-  TextColor: #7f92a7,
-  RenderUppercase: true,
-  RenderBold: true,
-  LetterSpacing: 0.5
-);
-
-@SummaryValueStyle = LabelStyle(
-  FontSize: 15,
-  TextColor: #dbe6ef,
-  RenderBold: true,
+@BodyStyle = LabelStyle(
+  FontSize: 14,
+  TextColor: #aebfd1,
   Wrap: true
 );
 
-$C.@PageOverlay {
-  LayoutMode: Middle;
+@CaptionStyle = LabelStyle(
+  FontSize: 12,
+  TextColor: #8fa4ba,
+  RenderBold: true,
+  LetterSpacing: 0.15
+);
 
-  $C.@DecoratedContainer {
-    Anchor: (Height: 840, Width: 1180);
+@SummaryStyle = LabelStyle(
+  FontSize: 22,
+  TextColor: #eef6ff,
+  FontName: "Secondary",
+  RenderBold: true
+);
 
-    #Title {
+Group #CodexRoot {
+  Anchor: (Full: 0);
+  LayoutMode: MiddleCenter;
+
+  Group {
+    Anchor: (Full: 0);
+    Background: #04070d(0.68);
+  }
+
+  Group {
+    Anchor: (Width: 980, Height: 680);
+    LayoutMode: Top;
+    Padding: (Full: 22);
+    Background: #0b1420(0.97);
+
+    Group {
+      Anchor: (Height: 72);
+      LayoutMode: Left;
+
       Group {
-        LayoutMode: Center;
+        Anchor: (Width: 640, Height: 72, Right: 18);
+        LayoutMode: Top;
 
         Label {
-          Style: (...@TitleStyle, FontName: "Default", RenderBold: true);
-          Text: "Tiny Fishing Fishdex";
+          Anchor: (Height: 36);
+          Style: @TitleStyle;
+          Text: "Fishing Codex";
+        }
+
+        Label {
+          Anchor: (Height: 22, Top: 2);
+          Style: (...@BodyStyle, FontSize: 13, TextColor: #8fa4ba);
+          Text: "Known catches first. Unknown fish stay hidden.";
+        }
+      }
+
+      Group {
+        Anchor: (Width: 300, Height: 62, Top: 4);
+        Padding: (Left: 16, Top: 10, Right: 16, Bottom: 10);
+        LayoutMode: Top;
+        Background: #101b29(0.96);
+
+        Label {
+          Anchor: (Height: 16);
+          Style: @CaptionStyle;
+          Text: "Discovered";
+        }
+
+        Label #Summary {
+          Anchor: (Height: 26, Top: 2);
+          Style: @SummaryStyle;
+          Text: "0 / 0";
         }
       }
     }
 
-    #Content {
-      LayoutMode: Top;
-      Padding: (Full: 12);
+    Group {
+      Anchor: (Height: 10);
+    }
 
-      Group {
-        Anchor: (Bottom: 12);
-        Background: (TexturePath: "../Pages/Memories/ContainerBackground.png", Border: 23);
-        Padding: (Horizontal: 20, Vertical: 14);
-        LayoutMode: Left;
+    Group {
+      FlexWeight: 1;
+      Background: #0d1825(0.54);
+      Padding: (Left: 10, Top: 10, Right: 2, Bottom: 10);
+      LayoutMode: TopScrolling;
+      ScrollbarStyle: $C.@DefaultScrollbarStyle;
 
-        Group {
-          LayoutMode: Top;
-
-          Label {
-            Style: @SummaryCaptionStyle;
-            Text: "Collection";
-          }
-
-          Label #Summary {
-            Style: @SummaryValueStyle;
-            Text: "0 / 0 fish discovered";
-          }
-        }
-
-        Group {
-          FlexWeight: 1;
-        }
-
-        Group {
-          LayoutMode: Top;
-
-          Label {
-            Style: @SummaryCaptionStyle;
-            Text: "Catalog";
-          }
-
-          Label {
-            Style: @SummaryValueStyle;
-            Text: "Known fish and ? entries";
-          }
-        }
-      }
-
-      Group {
-        FlexWeight: 1;
-        Background: (TexturePath: "../Pages/Memories/MemoriesRunes.png", Border: 15);
-        Padding: (Horizontal: 18, Vertical: 18);
-        LayoutMode: Top;
-
-        Group {
-          LayoutMode: TopScrolling;
-          ScrollbarStyle: $C.@DefaultScrollbarStyle;
-          FlexWeight: 1;
-
-          Group #FishList {
-            LayoutMode: LeftCenterWrap;
-          }
-        }
+      Group #FishList {
+        LayoutMode: LeftCenterWrap;
       }
     }
   }

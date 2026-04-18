@@ -62,11 +62,11 @@ public final class FishingSession {
     }
 
     public void markBiteTriggered() {
-        this.state = FishingSessionState.REEL_WINDOW;
+        this.state = FishingSessionState.TENSION_ACTIVE;
     }
 
-    public boolean isInReelWindow(Instant now) {
-        return state == FishingSessionState.REEL_WINDOW && !now.isAfter(reelWindowEndsAt);
+    public boolean isInTensionWindow(Instant now) {
+        return state == FishingSessionState.TENSION_ACTIVE && !now.isAfter(reelWindowEndsAt);
     }
 
     public Ref<EntityStore> getBobberRef() {
@@ -76,4 +76,5 @@ public final class FishingSession {
     public void setBobberRef(Ref<EntityStore> bobberRef) {
         this.bobberRef = bobberRef;
     }
+
 }

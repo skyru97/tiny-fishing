@@ -46,6 +46,15 @@ public final class FishingContextResolver {
     }
 
     public Optional<FishingCastContext> resolveContext(Ref<EntityStore> playerEntityRef, String heldItemId, Vector3i initialTargetBlock) {
+        return resolveContext(playerEntityRef, heldItemId, initialTargetBlock, null);
+    }
+
+    public Optional<FishingCastContext> resolveContext(
+        Ref<EntityStore> playerEntityRef,
+        String heldItemId,
+        Vector3i initialTargetBlock,
+        Vector3d preciseTargetPosition
+    ) {
         Store<EntityStore> store = playerEntityRef.getStore();
         Player player = store.getComponent(playerEntityRef, Player.getComponentType());
         if (player == null) {
@@ -62,7 +71,7 @@ public final class FishingContextResolver {
             return Optional.empty();
         }
 
-        return resolveContextAtBlock(player, rod, transform, initialTargetBlock);
+        return resolveContextAtBlock(player, rod, transform, initialTargetBlock, preciseTargetPosition);
     }
 
     private RodDefinition resolveHeldRod(Player player, String heldItemId) {
@@ -133,7 +142,8 @@ public final class FishingContextResolver {
         Player player,
         RodDefinition rod,
         TransformComponent transform,
-        Vector3i targetBlock
+        Vector3i targetBlock,
+        Vector3d preciseTargetPosition
     ) {
         if (targetBlock == null) {
             return Optional.empty();
@@ -165,8 +175,25 @@ public final class FishingContextResolver {
             return Optional.empty();
         }
 
-        Vector3d targetPosition = new Vector3d(targetBlock).add(0.5, 0.78, 0.5);
+        Vector3d targetPosition = buildTargetPosition(targetBlock, preciseTargetPosition);
         return Optional.of(new FishingCastContext(rod, region, targetBlock, targetPosition, environmentId));
+    }
+
+    private Vector3d buildTargetPosition(Vector3i targetBlock, Vector3d preciseTargetPosition) {
+        if (preciseTargetPosition == null) {
+            return new Vector3d(targetBlock).add(0.5, 0.78, 0.5);
+        }
+
+        // Keep the bobber inside the targeted water block while preserving the clicked hit point.
+        Vector3d targetPosition = preciseTargetPosition.clone();
+        targetPosition.setX(clamp(targetPosition.getX(), targetBlock.getX() + 0.15, targetBlock.getX() + 0.85));
+        targetPosition.setY(targetBlock.getY() + 0.78);
+        targetPosition.setZ(clamp(targetPosition.getZ(), targetBlock.getZ() + 0.15, targetBlock.getZ() + 0.85));
+        return targetPosition;
+    }
+
+    private double clamp(double value, double min, double max) {
+        return Math.max(min, Math.min(max, value));
     }
 
     private FishingRegionDefinition resolveRegion(String environmentId) {
