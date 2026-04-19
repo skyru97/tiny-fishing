@@ -1,8 +1,8 @@
 # Tiny Fishing
 
-Tiny Fishing is a focused Hytale fishing mod by `skyru` built around a short, readable loop.
+Tiny Fishing is a focused Hytale fishing mod by `skyru` built around a short, cozy and readable loop.
 
-Cast into water, wait for the bite, reel at the right time, and slowly fill out a codex of fish across different regions. No fishing minigame, no bloated progression tree, and no extra systems fighting for attention.
+Cast into water, wait for the bite, reel at the right time, and slowly fill out a codex of fish across different regions. Fish'em all!
 
 ![Tiny Fishing hero loop](docs/media/hero-loop.gif)
 
@@ -26,8 +26,6 @@ Cast into water, wait for the bite, reel at the right time, and slowly fill out 
 5. Catch fish, trash, or a prize.
 
 ## How To Open The Codex
-
-This is the most important control to know:
 
 1. Hold the `Fishing Rod`.
 2. Aim away from water.
@@ -63,7 +61,7 @@ Prize items are selected from a uniform global pool.
 
 ## Crafting
 
-The `Fishing Rod` is crafted with:
+The `Fishing Rod` is crafted in "Pocket crafting" with:
 
 - `Stick x2`
 - `Fibre x2`
