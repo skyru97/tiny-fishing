@@ -10,12 +10,14 @@ public record TinyFishingConfig(
     List<RodDefinition> rods,
     List<FishDefinition> fishDefinitions,
     List<CodexEntryDefinition> codexEntries,
-    List<FishingRegionDefinition> fishingRegions
+    List<FishingRegionDefinition> fishingRegions,
+    List<String> prizeItems
 ) {
     public TinyFishingConfig {
         rods = List.copyOf(rods);
         fishDefinitions = List.copyOf(fishDefinitions);
         codexEntries = List.copyOf(codexEntries);
         fishingRegions = List.copyOf(fishingRegions);
+        prizeItems = List.copyOf(prizeItems);
     }
 }

@@ -16,9 +16,11 @@ import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public final class FishingContextResolver {
     private static final String WATER_FLUID_ID = "Water";
@@ -202,18 +204,75 @@ public final class FishingContextResolver {
             return exactRegion;
         }
 
-        if (environmentId != null) {
-            String normalizedEnvironmentId = environmentId.toLowerCase();
-            for (FishingRegionDefinition region : fishingRegions) {
-                String regionId = region.regionId().toLowerCase();
-                int separatorIndex = regionId.indexOf('_');
-                String zonePrefix = separatorIndex >= 0 ? regionId.substring(0, separatorIndex) : regionId;
-                if (normalizedEnvironmentId.contains(zonePrefix)) {
-                    return region;
-                }
+        if (environmentId == null || environmentId.isBlank()) {
+            return null;
+        }
+
+        String normalizedEnvironmentId = environmentId.toLowerCase();
+        String zonePrefix = extractZonePrefix(normalizedEnvironmentId);
+        FishingRegionDefinition bestFallback = null;
+        int bestScore = 0;
+        for (FishingRegionDefinition region : fishingRegions) {
+            int score = scoreFallbackRegion(region, normalizedEnvironmentId, zonePrefix);
+            if (score > bestScore) {
+                bestScore = score;
+                bestFallback = region;
             }
         }
 
-        return fishingRegions.isEmpty() ? null : fishingRegions.getFirst();
+        return bestFallback;
+    }
+
+    private int scoreFallbackRegion(FishingRegionDefinition region, String environmentId, String zonePrefix) {
+        String regionZonePrefix = extractZonePrefix(region.regionId().toLowerCase());
+        if (zonePrefix != null && !zonePrefix.equals(regionZonePrefix)) {
+            return 0;
+        }
+
+        Set<String> environmentTokens = tokenizeEnvironmentId(environmentId);
+        int bestScore = 0;
+        for (String configuredEnvironmentId : region.environmentIds()) {
+            int score = countSharedTokens(environmentTokens, tokenizeEnvironmentId(configuredEnvironmentId.toLowerCase()));
+            if (score > bestScore) {
+                bestScore = score;
+            }
+        }
+        return bestScore;
+    }
+
+    private String extractZonePrefix(String value) {
+        int zoneIndex = value.indexOf("zone");
+        if (zoneIndex < 0) {
+            return null;
+        }
+
+        int endIndex = zoneIndex + 4;
+        while (endIndex < value.length() && Character.isDigit(value.charAt(endIndex))) {
+            endIndex++;
+        }
+        if (endIndex == zoneIndex + 4) {
+            return null;
+        }
+        return value.substring(zoneIndex, endIndex);
+    }
+
+    private Set<String> tokenizeEnvironmentId(String value) {
+        Set<String> tokens = new HashSet<>();
+        for (String token : value.replace("env_", "").split("[^a-z0-9]+")) {
+            if (!token.isBlank()) {
+                tokens.add(token);
+            }
+        }
+        return tokens;
+    }
+
+    private int countSharedTokens(Set<String> left, Set<String> right) {
+        int shared = 0;
+        for (String token : left) {
+            if (right.contains(token)) {
+                shared++;
+            }
+        }
+        return shared;
     }
 }

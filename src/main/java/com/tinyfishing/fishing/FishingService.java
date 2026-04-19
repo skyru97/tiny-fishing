@@ -4,6 +4,7 @@ import com.tinyfishing.component.FishingBobberComponent;
 import com.tinyfishing.component.FishingPlayerDataComponent;
 import com.tinyfishing.config.TinyFishingConfig;
 import com.tinyfishing.item.CatchReward;
+import com.tinyfishing.item.CodexEntryDefinition;
 import com.tinyfishing.item.FishDefinition;
 import com.tinyfishing.loot.CatchType;
 import com.tinyfishing.world.FishingContextResolver;
@@ -16,7 +17,6 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.ItemUtils;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -28,6 +28,7 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.util.TargetUtil;
+import com.hypixel.hytale.server.core.util.EventTitleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.protocol.SoundCategory;
@@ -56,11 +57,14 @@ public final class FishingService {
     private static final float LOOT_VISUAL_TRAVEL_SECONDS = 0.45f;
     private static final float LOOT_VISUAL_SCALE = 1.75f;
     private static final float BOBBER_CAST_SOUND_VOLUME = 0.78f;
-    private static final int TRASH_WEIGHT = 28;
-    private static final int FISH_WEIGHT = 62;
+    private static final int TRASH_WEIGHT = 20;
+    private static final int FISH_WEIGHT = 70;
     private static final int PRIZE_WEIGHT = 10;
     private static final String BOBBER_CAST_SOUND_EVENT_ID = "SFX_TinyFishing_BiteSplash";
     private static final String[] BITE_SOUND_EVENT_IDS = {"SFX_TinyFishing_BiteSplash", "SFX_Water_MoveIn", "SFX_Water_MoveOut", "SFX_Tool_Watering_Can_Water"};
+    private static final String[] DISCOVERY_SOUND_EVENT_IDS = {"SFX_Discovery_Z1_Medium", "SFX_Discovery_Z1_Short", "SFX_Discovery_Z4_Medium"};
+    private static final String NEW_FISH_DISCOVERY_TITLE = "New Fish Discovered";
+    private static final String NEW_QUALITY_DISCOVERY_TITLE = "New Best Quality";
     private final HytaleLogger logger;
     private final ComponentType<EntityStore, FishingBobberComponent> bobberType;
     private final ComponentType<EntityStore, FishingPlayerDataComponent> dataType;
@@ -69,6 +73,7 @@ public final class FishingService {
     private final LootTableService lootTableService;
     private final Set<String> configuredRodItemIds;
     private final Map<String, String> codexEntryIdsByFishId;
+    private final Map<String, CodexEntryDefinition> codexEntriesById;
     private final Map<UUID, FishingSession> sessionsByPlayerId = new ConcurrentHashMap<>();
     private final Map<UUID, ScheduledFuture<?>> biteTasksByPlayerId = new ConcurrentHashMap<>();
     private final Map<UUID, ScheduledFuture<?>> expiryTasksByPlayerId = new ConcurrentHashMap<>();
@@ -92,6 +97,7 @@ public final class FishingService {
         this.lootTableService = lootTableService;
         this.configuredRodItemIds = buildConfiguredRodItemIds(config);
         this.codexEntryIdsByFishId = buildCodexEntryIdsByFishId(config);
+        this.codexEntriesById = buildCodexEntriesById(config);
     }
 
     public void shutdown() {
@@ -125,7 +131,6 @@ public final class FishingService {
 
         triggerBiteIfNeeded(store, player, playerRef, session);
         if (session.getState() == FishingSessionState.WAITING_FOR_BITE) {
-            setHud(player, playerRef, "Too early. Keep waiting.");
             return;
         }
 
@@ -135,7 +140,6 @@ public final class FishingService {
         }
 
         clearSession(store, session);
-        player.sendMessage(Message.raw("Too slow. The fish got away."));
     }
 
     private void handleInteractionCast(
@@ -149,10 +153,6 @@ public final class FishingService {
     ) {
         Optional<FishingCastContext> context = contextResolver.resolveContext(playerEntityRef, heldItemId, targetBlock, preciseTargetPosition);
         if (context.isEmpty()) {
-            if (heldItemId != null && isConfiguredRod(heldItemId)) {
-                player.sendMessage(Message.raw("Aim directly at water to cast."));
-                setHud(player, playerRef, "No valid water target.");
-            }
             return;
         }
 
@@ -177,7 +177,6 @@ public final class FishingService {
         sessionsByPlayerId.put(playerId, session);
         scheduleBite(store, session);
         scheduleExpiry(store, session);
-        setHud(player, playerRef, "Cast out. Watch the water.");
     }
 
     public boolean hasActiveSession(UUID playerUuid) {
@@ -211,10 +210,6 @@ public final class FishingService {
                 activateBite(store, player, playerRef, session);
             }
         }
-    }
-
-    public String buildStatusLine(FishingPlayerDataComponent data) {
-        return "Fish discovered " + codexService.getDiscoveredCount(data) + "/" + codexService.getTotalCount();
     }
 
     public FishingSession getSession(Ref<EntityStore> playerRef) {
@@ -303,8 +298,6 @@ public final class FishingService {
         session.markBiteTriggered();
         cancelTask(biteTasksByPlayerId.remove(session.getPlayerUuid()));
         syncBobberToSession(store, session);
-        player.sendMessage(Message.raw("Fish on. Reel in now!"));
-        setHud(player, playerRef, "Fish on. Right click now!");
     }
 
     private void scheduleBite(Store<EntityStore> store, FishingSession session) {
@@ -336,16 +329,7 @@ public final class FishingService {
             if (current != session) {
                 return;
             }
-            Player player = store.getComponent(session.getPlayerEntityRef(), Player.getComponentType());
-            PlayerRef playerRef = store.getComponent(session.getPlayerEntityRef(), PlayerRef.getComponentType());
-            boolean biteWasActive = session.getState() == FishingSessionState.TENSION_ACTIVE;
             clearSession(store, session);
-            if (player != null && playerRef != null) {
-                if (biteWasActive) {
-                    player.sendMessage(Message.raw("The fish slipped away."));
-                } else {
-                }
-            }
         }), delayMillis, TimeUnit.MILLISECONDS);
         expiryTasksByPlayerId.put(playerId, future);
     }
@@ -527,14 +511,18 @@ public final class FishingService {
 
         giveRewardWithVisual(playerEntityRef, player, reward, getBobberPosition(session), store);
 
+        String codexEntryId = null;
+        boolean discoveredNewFish = false;
+        boolean improvedCatchQuality = false;
         if (reward.fishId() != null) {
-            codexService.discover(data, configFishCodexEntryId(reward.fishId()));
+            codexEntryId = configFishCodexEntryId(reward.fishId());
+            discoveredNewFish = codexService.discover(data, codexEntryId);
+            improvedCatchQuality = data.recordBestCatchQuality(codexEntryId, reward.quality());
         }
         store.putComponent(playerEntityRef, dataType, data);
 
         clearSession(store, session);
-        player.sendMessage(Message.raw("Caught: " + reward.displayName()));
-        player.sendMessage(Message.raw(buildSuccessHudText(reward)));
+        notifyCatchMilestone(player, playerRef, reward, codexEntryId, discoveredNewFish, improvedCatchQuality);
     }
 
     private void cancelTask(ScheduledFuture<?> task) {
@@ -543,12 +531,59 @@ public final class FishingService {
         }
     }
 
-    private void setHud(Player player, PlayerRef playerRef, String text) {
-        player.sendMessage(Message.raw(text));
+    private void notifyCatchMilestone(Player player, PlayerRef playerRef, CatchReward reward, String codexEntryId, boolean discoveredNewFish, boolean improvedCatchQuality) {
+        if (player == null || playerRef == null || reward.fishId() == null) {
+            return;
+        }
+
+        String fishDisplayName = resolveCodexDisplayName(codexEntryId, reward.displayName());
+
+        if (discoveredNewFish) {
+            showCatchMilestoneTitle(
+                playerRef,
+                com.hypixel.hytale.server.core.Message.raw(NEW_FISH_DISCOVERY_TITLE),
+                com.hypixel.hytale.server.core.Message.raw(fishDisplayName)
+            );
+            return;
+        }
+
+        if (improvedCatchQuality && reward.quality() != null && !reward.quality().isBlank()) {
+            showCatchMilestoneTitle(
+                playerRef,
+                com.hypixel.hytale.server.core.Message.raw(NEW_QUALITY_DISCOVERY_TITLE),
+                com.hypixel.hytale.server.core.Message.raw(toTitleCase(reward.quality()) + " " + fishDisplayName)
+            );
+        }
     }
 
-    private String buildSuccessHudText(CatchReward reward) {
-        return "Caught " + reward.displayName() + ".";
+    private void showCatchMilestoneTitle(
+        PlayerRef playerRef,
+        com.hypixel.hytale.server.core.Message title,
+        com.hypixel.hytale.server.core.Message subtitle
+    ) {
+        EventTitleUtil.showEventTitleToPlayer(playerRef, title, subtitle, true);
+
+        int soundId = resolveDiscoverySoundId();
+        if (soundId == SoundEvent.EMPTY_ID) {
+            return;
+        }
+
+        SoundUtil.playSoundEvent2dToPlayer(playerRef, soundId, SoundCategory.UI);
+    }
+
+    private String toTitleCase(String value) {
+        if (value == null || value.isBlank()) {
+            return "";
+        }
+        return Character.toUpperCase(value.charAt(0)) + value.substring(1).toLowerCase();
+    }
+
+    private String resolveCodexDisplayName(String codexEntryId, String fallbackDisplayName) {
+        CodexEntryDefinition codexEntry = codexEntriesById.get(codexEntryId);
+        if (codexEntry == null || codexEntry.displayName() == null || codexEntry.displayName().isBlank()) {
+            return fallbackDisplayName;
+        }
+        return codexEntry.displayName();
     }
 
     private boolean isConfiguredRod(String itemId) {
@@ -567,6 +602,16 @@ public final class FishingService {
 
     private int resolveBiteSoundId() {
         for (String soundEventId : BITE_SOUND_EVENT_IDS) {
+            int soundId = SoundEvent.getAssetMap().getIndexOrDefault(soundEventId, SoundEvent.EMPTY_ID);
+            if (soundId != SoundEvent.EMPTY_ID) {
+                return soundId;
+            }
+        }
+        return SoundEvent.EMPTY_ID;
+    }
+
+    private int resolveDiscoverySoundId() {
+        for (String soundEventId : DISCOVERY_SOUND_EVENT_IDS) {
             int soundId = SoundEvent.getAssetMap().getIndexOrDefault(soundEventId, SoundEvent.EMPTY_ID);
             if (soundId != SoundEvent.EMPTY_ID) {
                 return soundId;
@@ -618,6 +663,14 @@ public final class FishingService {
             entryIdsByFishId.put(fishDefinition.id(), fishDefinition.codexEntryId());
         }
         return Map.copyOf(entryIdsByFishId);
+    }
+
+    private Map<String, CodexEntryDefinition> buildCodexEntriesById(TinyFishingConfig config) {
+        Map<String, CodexEntryDefinition> entriesById = new HashMap<>();
+        for (CodexEntryDefinition codexEntry : config.codexEntries()) {
+            entriesById.put(codexEntry.id(), codexEntry);
+        }
+        return Map.copyOf(entriesById);
     }
 
     private static final class SchedulerThreadFactory implements ThreadFactory {

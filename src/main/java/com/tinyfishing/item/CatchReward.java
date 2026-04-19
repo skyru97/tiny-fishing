@@ -8,6 +8,7 @@ public record CatchReward(
     String rewardItemState,
     String fishId,
     String displayName,
-    String regionId
+    String regionId,
+    String quality
 ) {
 }

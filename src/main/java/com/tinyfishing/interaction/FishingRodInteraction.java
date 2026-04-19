@@ -91,6 +91,9 @@ public final class FishingRodInteraction extends SimpleInstantInteraction {
     }
 
     private static void playEffect(InteractionContext context, String rootInteractionId) {
-        context.execute(RootInteraction.getRootInteractionOrUnknown(rootInteractionId));
+        RootInteraction rootInteraction = RootInteraction.getAssetMap().getAsset(rootInteractionId);
+        if (rootInteraction != null) {
+            context.execute(rootInteraction);
+        }
     }
 }

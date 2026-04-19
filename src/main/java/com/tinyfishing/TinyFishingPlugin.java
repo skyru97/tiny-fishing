@@ -16,7 +16,6 @@ import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.event.EventRegistry;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
@@ -85,7 +84,6 @@ public final class TinyFishingPlugin extends JavaPlugin {
         }
 
         runtime.fishingService().cleanupOrphanedBobbers(store);
-        player.sendMessage(Message.raw("Tiny Fishing ready. Right click your rod away from water or use /tf codex to open your fishing codex."));
         store.putComponent(event.getPlayerRef(), fishingPlayerDataType, data);
     }
 
@@ -131,7 +129,7 @@ public final class TinyFishingPlugin extends JavaPlugin {
         TinyFishingConfig config = Objects.requireNonNull(configLoader.loadBundled(), "Tiny Fishing config must load.");
         CodexService codexService = new CodexService(config.codexEntries());
         FishingContextResolver fishingContextResolver = new FishingContextResolver(config.rods(), config.fishingRegions());
-        LootTableService lootTableService = new LootTableService(config.fishDefinitions(), config.fishingRegions());
+        LootTableService lootTableService = new LootTableService(config.fishDefinitions(), config.fishingRegions(), config.prizeItems());
         FishingService fishingService = new FishingService(
             getLogger(),
             fishingBobberType,

@@ -32,7 +32,8 @@ public final class TinyFishingConfigLoader {
             parseRods(readArray("rods.json")),
             parseFish(readArray("fish.json")),
             parseCodex(readArray("codex.json")),
-            parseRegions(readArray("fishing-regions.json"))
+            parseRegions(readArray("fishing-regions.json")),
+            readStringList(readArray("prize-items.json"))
         );
         configValidator.validate(config);
         logger.at(Level.INFO).log(

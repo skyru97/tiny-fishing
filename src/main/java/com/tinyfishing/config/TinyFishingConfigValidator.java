@@ -17,12 +17,14 @@ public final class TinyFishingConfigValidator {
         require(!config.fishDefinitions().isEmpty(), "Tiny Fishing requires at least one fish definition.");
         require(!config.codexEntries().isEmpty(), "Tiny Fishing requires at least one codex entry.");
         require(!config.fishingRegions().isEmpty(), "Tiny Fishing requires at least one fishing region.");
+        require(!config.prizeItems().isEmpty(), "Tiny Fishing requires at least one prize item.");
 
         validateRods(config.rods());
 
         Set<String> codexEntryIds = validateCodexEntries(config.codexEntries());
         Set<String> fishIds = validateFishDefinitions(config.fishDefinitions(), codexEntryIds);
         validateRegions(config.fishingRegions(), fishIds);
+        validatePrizeItems(config.prizeItems());
     }
 
     private void validateRods(List<RodDefinition> rods) {
@@ -97,9 +99,14 @@ public final class TinyFishingConfigValidator {
 
             validateFishEntries(region, fishIds);
             validateItemEntries(region.regionId(), "trash", region.trashEntries());
-            validateItemEntries(region.regionId(), "prize", region.prizeEntries());
         }
 
+    }
+
+    private void validatePrizeItems(List<String> prizeItems) {
+        for (String prizeItem : prizeItems) {
+            require(hasText(prizeItem), "Prize item ids must be non-empty.");
+        }
     }
 
     private void validateFishEntries(FishingRegionDefinition region, Set<String> fishIds) {
@@ -118,6 +125,9 @@ public final class TinyFishingConfigValidator {
     }
 
     private void validateItemEntries(String regionId, String tableName, List<WeightedFishingEntry> entries) {
+        if ("prize".equals(tableName)) {
+            return;
+        }
         require(!entries.isEmpty(), "Fishing region '" + regionId + "' must define at least one " + tableName + " entry.");
 
         for (WeightedFishingEntry entry : entries) {

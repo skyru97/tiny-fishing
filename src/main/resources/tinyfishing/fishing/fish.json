@@ -19,7 +19,7 @@
     "id": "trout_rainbow",
     "itemId": "Fish_Trout_Rainbow_Item",
     "displayName": "Rainbow Trout",
-    "rarity": "common",
+    "rarity": "rare",
     "xp": 16,
     "codexEntryId": "trout_rainbow"
   },
@@ -35,7 +35,7 @@
     "id": "piranha",
     "itemId": "Fish_Piranha_Item",
     "displayName": "Piranha",
-    "rarity": "common",
+    "rarity": "legendary",
     "xp": 18,
     "codexEntryId": "piranha"
   },
@@ -43,7 +43,7 @@
     "id": "piranha_black",
     "itemId": "Fish_Piranha_Black_Item",
     "displayName": "Black Piranha",
-    "rarity": "uncommon",
+    "rarity": "legendary",
     "xp": 22,
     "codexEntryId": "piranha_black"
   },
@@ -51,7 +51,7 @@
     "id": "pike",
     "itemId": "Fish_Pike_Item",
     "displayName": "Pike",
-    "rarity": "common",
+    "rarity": "legendary",
     "xp": 18,
     "codexEntryId": "pike"
   },
@@ -59,7 +59,7 @@
     "id": "clownfish",
     "itemId": "Fish_Clownfish_Item",
     "displayName": "Clownfish",
-    "rarity": "common",
+    "rarity": "rare",
     "xp": 16,
     "codexEntryId": "clownfish"
   },
@@ -67,7 +67,7 @@
     "id": "tang_blue",
     "itemId": "Fish_Tang_Blue_Item",
     "displayName": "Blue Tang",
-    "rarity": "common",
+    "rarity": "uncommon",
     "xp": 18,
     "codexEntryId": "tang_blue"
   },
@@ -75,7 +75,7 @@
     "id": "tang_chevron",
     "itemId": "Fish_Tang_Chevron_Item",
     "displayName": "Chevron Tang",
-    "rarity": "common",
+    "rarity": "uncommon",
     "xp": 18,
     "codexEntryId": "tang_chevron"
   },
@@ -83,7 +83,7 @@
     "id": "tang_lemon_peel",
     "itemId": "Fish_Tang_Lemon_Peel_Item",
     "displayName": "Lemon Peel Tang",
-    "rarity": "common",
+    "rarity": "uncommon",
     "xp": 18,
     "codexEntryId": "tang_lemon_peel"
   },
@@ -91,7 +91,7 @@
     "id": "tang_sailfin",
     "itemId": "Fish_Tang_Sailfin_Item",
     "displayName": "Sailfin Tang",
-    "rarity": "common",
+    "rarity": "uncommon",
     "xp": 20,
     "codexEntryId": "tang_sailfin"
   },
@@ -99,7 +99,7 @@
     "id": "pufferfish",
     "itemId": "Fish_Pufferfish_Item",
     "displayName": "Pufferfish",
-    "rarity": "uncommon",
+    "rarity": "rare",
     "xp": 22,
     "codexEntryId": "pufferfish"
   },
@@ -107,7 +107,7 @@
     "id": "lobster",
     "itemId": "Fish_Lobster_Item",
     "displayName": "Lobster",
-    "rarity": "uncommon",
+    "rarity": "legendary",
     "xp": 24,
     "codexEntryId": "lobster"
   },
@@ -115,7 +115,7 @@
     "id": "jellyfish_blue",
     "itemId": "Fish_Jellyfish_Blue_Item",
     "displayName": "Blue Jellyfish",
-    "rarity": "common",
+    "rarity": "epic",
     "xp": 16,
     "codexEntryId": "jellyfish_blue"
   },
@@ -123,7 +123,7 @@
     "id": "jellyfish_cyan",
     "itemId": "Fish_Jellyfish_Cyan_Item",
     "displayName": "Cyan Jellyfish",
-    "rarity": "common",
+    "rarity": "epic",
     "xp": 16,
     "codexEntryId": "jellyfish_cyan"
   },
@@ -131,7 +131,7 @@
     "id": "jellyfish_green",
     "itemId": "Fish_Jellyfish_Green_Item",
     "displayName": "Green Jellyfish",
-    "rarity": "common",
+    "rarity": "epic",
     "xp": 16,
     "codexEntryId": "jellyfish_green"
   },
@@ -139,7 +139,7 @@
     "id": "jellyfish_yellow",
     "itemId": "Fish_Jellyfish_Yellow_Item",
     "displayName": "Yellow Jellyfish",
-    "rarity": "common",
+    "rarity": "epic",
     "xp": 16,
     "codexEntryId": "jellyfish_yellow"
   },
@@ -147,7 +147,7 @@
     "id": "jellyfish_red",
     "itemId": "Fish_Jellyfish_Red_Item",
     "displayName": "Red Jellyfish",
-    "rarity": "common",
+    "rarity": "epic",
     "xp": 18,
     "codexEntryId": "jellyfish_red"
   },
@@ -155,7 +155,7 @@
     "id": "jellyfish_man_of_war",
     "itemId": "Fish_Jellyfish_Man_Of_War_Item",
     "displayName": "Man O' War",
-    "rarity": "uncommon",
+    "rarity": "legendary",
     "xp": 26,
     "codexEntryId": "jellyfish_man_of_war"
   },
@@ -163,7 +163,7 @@
     "id": "eel_moray",
     "itemId": "Fish_Eel_Moray_Item",
     "displayName": "Moray Eel",
-    "rarity": "uncommon",
+    "rarity": "legendary",
     "xp": 24,
     "codexEntryId": "eel_moray"
   },
@@ -171,7 +171,7 @@
     "id": "trilobite_black",
     "itemId": "Fish_Trilobite_Black_Item",
     "displayName": "Black Trilobite",
-    "rarity": "uncommon",
+    "rarity": "legendary",
     "xp": 24,
     "codexEntryId": "trilobite_black"
   },
@@ -179,7 +179,7 @@
     "id": "frostgill",
     "itemId": "Fish_Frostgill_Item",
     "displayName": "Frostgill",
-    "rarity": "uncommon",
+    "rarity": "legendary",
     "xp": 24,
     "codexEntryId": "frostgill"
   },
@@ -187,7 +187,7 @@
     "id": "trilobite",
     "itemId": "Fish_Trilobite_Item",
     "displayName": "Trilobite",
-    "rarity": "uncommon",
+    "rarity": "legendary",
     "xp": 24,
     "codexEntryId": "trilobite"
   },
@@ -195,7 +195,7 @@
     "id": "snapjaw",
     "itemId": "Fish_Snapjaw_Item",
     "displayName": "Snapjaw",
-    "rarity": "rare",
+    "rarity": "legendary",
     "xp": 30,
     "codexEntryId": "snapjaw"
   },
@@ -203,7 +203,7 @@
     "id": "salmon",
     "itemId": "Fish_Salmon_Item",
     "displayName": "Salmon",
-    "rarity": "uncommon",
+    "rarity": "rare",
     "xp": 24,
     "codexEntryId": "salmon"
   }

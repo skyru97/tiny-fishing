@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.tinyfishing"
-version = "0.1.0-SNAPSHOT"
+version = "1.0"
 
 val hytaleServerJar = file(
     System.getProperty("hytale.server.jar")
@@ -63,9 +63,10 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 tasks.processResources {
+    val releaseVersion = project.version.toString()
     filesMatching("manifest.json") {
         expand(
-            "version" to project.version.toString(),
+            "version" to releaseVersion,
             "serverVersion" to hytaleServerVersion
         )
     }
@@ -87,6 +88,11 @@ tasks.jar {
 
 tasks.register<Copy>("deployToHytaleSaveMods") {
     dependsOn(tasks.jar)
+    val jarTask = tasks.jar.get()
+    val targetArchiveName = jarTask.archiveFileName.get()
+    val existingTinyFishingJars = hytaleSaveModsDir.listFiles { _, name ->
+        name.startsWith("tiny-fishing-") && name.endsWith(".jar") && name != targetArchiveName
+    } ?: emptyArray()
     doFirst {
         require(hytaleServerJar.exists()) {
             "Missing Hytale server jar: ${hytaleServerJar.absolutePath}"
@@ -94,7 +100,12 @@ tasks.register<Copy>("deployToHytaleSaveMods") {
         if (!hytaleSaveModsDir.exists()) {
             hytaleSaveModsDir.mkdirs()
         }
+        existingTinyFishingJars.forEach { existingJar ->
+            if (existingJar.exists()) {
+                existingJar.delete()
+            }
+        }
     }
-    from(tasks.jar.get().archiveFile)
+    from(jarTask.archiveFile)
     into(hytaleSaveModsDir)
 }

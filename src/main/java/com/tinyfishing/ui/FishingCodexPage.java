@@ -44,15 +44,13 @@ public final class FishingCodexPage extends BasicCustomUIPage {
     @Override
     public void build(UICommandBuilder uiCommandBuilder) {
         FishingPlayerDataComponent data = store.ensureAndGetComponent(playerEntityRef, dataType);
-        List<CatalogEntry> displayEntries = new ArrayList<>(entries);
-        displayEntries.sort((left, right) -> Boolean.compare(data.hasDiscovered(right.codexEntryId()), data.hasDiscovered(left.codexEntryId())));
 
         uiCommandBuilder.append(PAGE_PATH);
         uiCommandBuilder.clear("#FishList");
         uiCommandBuilder.set("#Summary.Text", buildSummaryText(data));
 
-        for (int index = 0; index < displayEntries.size(); index++) {
-            CatalogEntry entry = displayEntries.get(index);
+        for (int index = 0; index < entries.size(); index++) {
+            CatalogEntry entry = entries.get(index);
             boolean discovered = data.hasDiscovered(entry.codexEntryId());
             String selector = "#FishList[" + index + "]";
 
@@ -62,10 +60,13 @@ public final class FishingCodexPage extends BasicCustomUIPage {
             uiCommandBuilder.set(selector + " #UnknownPlate.Visible", !discovered);
             uiCommandBuilder.set(selector + " #Icon.Visible", discovered);
             uiCommandBuilder.set(selector + " #QuestionMark.Visible", !discovered);
-            uiCommandBuilder.set(selector + " #AccentUnknown.Visible", !discovered);
-            uiCommandBuilder.set(selector + " #AccentCommon.Visible", discovered && rarityMatches(entry.rarity(), "common"));
-            uiCommandBuilder.set(selector + " #AccentUncommon.Visible", discovered && rarityMatches(entry.rarity(), "uncommon"));
-            uiCommandBuilder.set(selector + " #AccentRare.Visible", discovered && rarityMatches(entry.rarity(), "rare"));
+            String bestQuality = discovered ? normalizeQuality(data.getBestCatchQuality(entry.codexEntryId()), entry.rarity()) : null;
+            uiCommandBuilder.set(selector + " #BorderUnknown.Visible", !discovered);
+            uiCommandBuilder.set(selector + " #BorderCommon.Visible", discovered && qualityMatches(bestQuality, "common"));
+            uiCommandBuilder.set(selector + " #BorderUncommon.Visible", discovered && qualityMatches(bestQuality, "uncommon"));
+            uiCommandBuilder.set(selector + " #BorderRare.Visible", discovered && qualityMatches(bestQuality, "rare"));
+            uiCommandBuilder.set(selector + " #BorderEpic.Visible", discovered && qualityMatches(bestQuality, "epic"));
+            uiCommandBuilder.set(selector + " #BorderLegendary.Visible", discovered && qualityMatches(bestQuality, "legendary"));
 
             if (discovered && hasText(entry.iconPath())) {
                 uiCommandBuilder.set(selector + " #Icon.AssetPath", entry.iconPath());
@@ -91,18 +92,45 @@ public final class FishingCodexPage extends BasicCustomUIPage {
             codexById.put(codexEntry.id(), codexEntry);
         }
 
-        List<CatalogEntry> orderedEntries = new ArrayList<>();
+        Map<String, FishDefinition> fishById = new LinkedHashMap<>();
         for (FishDefinition fishDefinition : config.fishDefinitions()) {
-            CodexEntryDefinition codexEntry = codexById.get(fishDefinition.codexEntryId());
-            String displayName = codexEntry == null || !hasText(codexEntry.displayName()) ? fishDefinition.displayName() : codexEntry.displayName();
-            String iconPath = codexEntry == null ? null : codexEntry.iconPath();
-            orderedEntries.add(new CatalogEntry(fishDefinition.codexEntryId(), displayName, iconPath, fishDefinition.rarity()));
+            fishById.put(fishDefinition.id(), fishDefinition);
         }
-        return List.copyOf(orderedEntries);
+
+        Map<String, CatalogEntry> orderedEntries = new LinkedHashMap<>();
+        for (var region : config.fishingRegions()) {
+            for (var fishEntry : region.fishEntries()) {
+                FishDefinition fishDefinition = fishById.get(fishEntry.targetId());
+                if (fishDefinition == null) {
+                    continue;
+                }
+                orderedEntries.putIfAbsent(fishDefinition.codexEntryId(), toCatalogEntry(fishDefinition, codexById));
+            }
+        }
+
+        for (FishDefinition fishDefinition : config.fishDefinitions()) {
+            orderedEntries.putIfAbsent(fishDefinition.codexEntryId(), toCatalogEntry(fishDefinition, codexById));
+        }
+
+        return List.copyOf(orderedEntries.values());
     }
 
-    private boolean rarityMatches(String rarity, String expected) {
-        return hasText(rarity) && rarity.equalsIgnoreCase(expected);
+    private CatalogEntry toCatalogEntry(FishDefinition fishDefinition, Map<String, CodexEntryDefinition> codexById) {
+        CodexEntryDefinition codexEntry = codexById.get(fishDefinition.codexEntryId());
+        String displayName = codexEntry == null || !hasText(codexEntry.displayName()) ? fishDefinition.displayName() : codexEntry.displayName();
+        String iconPath = codexEntry == null ? null : codexEntry.iconPath();
+        return new CatalogEntry(fishDefinition.codexEntryId(), displayName, iconPath, fishDefinition.rarity());
+    }
+
+    private boolean qualityMatches(String quality, String expected) {
+        return hasText(quality) && quality.equalsIgnoreCase(expected);
+    }
+
+    private String normalizeQuality(String quality, String fallback) {
+        if (hasText(quality)) {
+            return quality.toLowerCase();
+        }
+        return hasText(fallback) ? fallback.toLowerCase() : "common";
     }
 
     private boolean hasText(String value) {

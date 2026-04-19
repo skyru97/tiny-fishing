@@ -12,10 +12,7 @@
       { "itemId": "Rubble_Stone", "weight": 30 },
       { "itemId": "Plant_Flower_Water_Duckweed", "weight": 20 }
     ],
-    "prizeEntries": [
-      { "itemId": "Deco_Coral_Shell", "weight": 10 },
-      { "itemId": "Deco_Treasure", "weight": 2 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone1_highlands",
@@ -30,10 +27,7 @@
       { "itemId": "Rubble_Stone", "weight": 45 },
       { "itemId": "Rubble_Stone_Medium", "weight": 20 }
     ],
-    "prizeEntries": [
-      { "itemId": "Ore_Copper_Stone", "weight": 8 },
-      { "itemId": "Deco_Coral_Shell_Swirly", "weight": 2 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone1_swamps",
@@ -49,10 +43,7 @@
       { "itemId": "Ingredient_Stick", "weight": 35 },
       { "itemId": "Rubble_Stone", "weight": 25 }
     ],
-    "prizeEntries": [
-      { "itemId": "Deco_Coral_Shell_Urchin", "weight": 8 },
-      { "itemId": "Deco_Starfish", "weight": 2 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone1_shores",
@@ -73,10 +64,7 @@
       { "itemId": "Deco_Starfish", "weight": 20 },
       { "itemId": "Ingredient_Stick", "weight": 20 }
     ],
-    "prizeEntries": [
-      { "itemId": "Deco_Treasure", "weight": 3 },
-      { "itemId": "Deco_Coral_Shell_Sanddollar", "weight": 10 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone2_shores",
@@ -99,10 +87,7 @@
       { "itemId": "Ingredient_Stick", "weight": 20 },
       { "itemId": "Deco_Starfish", "weight": 25 }
     ],
-    "prizeEntries": [
-      { "itemId": "Deco_Treasure", "weight": 2 },
-      { "itemId": "Deco_Coral_Shell_Sanddollar", "weight": 10 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone2_savanna",
@@ -117,10 +102,7 @@
       { "itemId": "Rubble_Stone", "weight": 35 },
       { "itemId": "Deco_Coral_Shell_Swirly", "weight": 25 }
     ],
-    "prizeEntries": [
-      { "itemId": "Ore_Silver_Stone", "weight": 7 },
-      { "itemId": "Deco_Treasure", "weight": 2 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone2_desert_oasis",
@@ -135,10 +117,7 @@
       { "itemId": "Rubble_Stone_Medium", "weight": 35 },
       { "itemId": "Ingredient_Stick", "weight": 25 }
     ],
-    "prizeEntries": [
-      { "itemId": "Ore_Gold_Stone", "weight": 8 },
-      { "itemId": "Deco_Coral_Shell_Sanddollar", "weight": 2 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone3_shores",
@@ -154,10 +133,7 @@
       { "itemId": "Rubble_Stone", "weight": 35 },
       { "itemId": "Ingredient_Stick", "weight": 35 }
     ],
-    "prizeEntries": [
-      { "itemId": "Deco_Treasure", "weight": 3 },
-      { "itemId": "Ore_Silver_Stone", "weight": 7 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone3_tundra",
@@ -172,10 +148,7 @@
       { "itemId": "Ingredient_Stick", "weight": 30 },
       { "itemId": "Deco_Coral_Shell", "weight": 25 }
     ],
-    "prizeEntries": [
-      { "itemId": "Ore_Silver_Stone", "weight": 7 },
-      { "itemId": "Deco_Starfish", "weight": 3 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone3_highlands",
@@ -189,10 +162,7 @@
       { "itemId": "Ingredient_Stick", "weight": 30 },
       { "itemId": "Rubble_Stone_Medium", "weight": 20 }
     ],
-    "prizeEntries": [
-      { "itemId": "Ore_Gold_Stone", "weight": 6 },
-      { "itemId": "Deco_Treasure", "weight": 2 }
-    ]
+    "prizeEntries": []
   },
   {
     "regionId": "zone3_glacial",
@@ -207,9 +177,6 @@
       { "itemId": "Ingredient_Stick", "weight": 25 },
       { "itemId": "Deco_Coral_Shell", "weight": 20 }
     ],
-    "prizeEntries": [
-      { "itemId": "Ore_Gold_Stone", "weight": 7 },
-      { "itemId": "Deco_Coral_Shell_Sanddollar", "weight": 3 }
-    ]
+    "prizeEntries": []
   }
 ]

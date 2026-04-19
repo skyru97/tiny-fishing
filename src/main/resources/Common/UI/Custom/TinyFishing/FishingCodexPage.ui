@@ -57,11 +57,6 @@ Group #CodexRoot {
           Text: "Fishing Codex";
         }
 
-        Label {
-          Anchor: (Height: 22, Top: 2);
-          Style: (...@BodyStyle, FontSize: 13, TextColor: #8fa4ba);
-          Text: "Known catches first. Unknown fish stay hidden.";
-        }
       }
 
       Group {

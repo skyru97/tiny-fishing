@@ -1,11 +1,11 @@
 {
   "Group": "com.tinyfishing",
   "Name": "TinyFishing",
-  "Version": "0.1.0-SNAPSHOT",
+  "Version": "1.0",
   "Description": "Slim Hytale fishing mod with a simple fishdex and active fishing loop.",
   "Authors": [
     {
-      "Name": "OpenCode"
+      "Name": "skyru"
     }
   ],
   "Website": "https://github.com/drytik/tiny-fishing",
