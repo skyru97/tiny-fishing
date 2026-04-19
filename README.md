@@ -1,6 +1,6 @@
 # Tiny Fishing
 
-Tiny Fishing is a focused Hytale fishing mod by `skyru` built around a short, cozy and readable loop.
+Tiny Fishing is a focused Hytale fishing mod built around a short, cozy and readable loop.
 
 Cast into water, wait for the bite, reel at the right time, and slowly fill out a codex of fish across different regions. Fish'em all!
 
@@ -11,11 +11,20 @@ Cast into water, wait for the bite, reel at the right time, and slowly fill out 
 - simple cast, wait, and reel fishing flow
 - no fishing minigame
 - fixed-slot Fishing Codex with hidden gaps to fill over time
+- codex built around the vanilla fish currently available in Hytale
+- fish are split across different zones and biomes, so completing the codex requires travelling through different environments
+- codex content will continue to be updated as new vanilla fish are added to Hytale
 - new fish and new best quality discovery alerts
 - fish quality tracking for codex progression
 - region-based fish and trash tables
 - global prize pool with gems, ores, and eternal crop seeds
 - codex access directly from the rod in-game
+
+## Download
+
+Tiny Fishing is also available on CurseForge.
+
+CurseForge page: link to be added.
 
 ## How To Fish
 
@@ -26,6 +35,8 @@ Cast into water, wait for the bite, reel at the right time, and slowly fill out 
 5. Catch fish, trash, or a prize.
 
 ## How To Open The Codex
+
+This is the easiest interaction to miss and the most important control to know:
 
 1. Hold the `Fishing Rod`.
 2. Aim away from water.
@@ -45,6 +56,9 @@ There is also a fallback command:
 
 ## Fishing Codex
 
+- the codex is made up of the vanilla fish currently available in Hytale
+- it is intended to keep expanding as vanilla adds more fish over time
+- right now, completing it means visiting different environments because fish are separated by zone and biome
 - every fish has a fixed slot
 - undiscovered fish stay hidden as gaps
 - codex order is fixed by region instead of discovery time
@@ -88,6 +102,17 @@ See also:
 
 - `CHANGELOG.md`
 - `docs/RELEASE_NOTES_1.0.md`
+
+## License
+
+Licensed under the Apache License 2.0.
+
+You are free to use, modify, and redistribute this project, including derivative works, as long as the Apache 2.0 license text and attribution notices are preserved.
+
+See:
+
+- `LICENSE`
+- `NOTICE`
 
 ## Development
 
