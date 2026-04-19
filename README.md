@@ -101,7 +101,7 @@ Current version: `1.0`
 See also:
 
 - `CHANGELOG.md`
-- `docs/RELEASE_NOTES_1.0.md`
+- `docs/release/RELEASE_NOTES_1.0.md`
 
 ## License
 
@@ -135,8 +135,8 @@ Override local paths with:
 - `-Dhytale.server.jar=/path/to/HytaleServer.jar`
 - `-Dhytale.save.mods.dir=/path/to/save/mods`
 
-Additional implementation notes live in:
+Development notes live in:
 
-- `docs/DESIGN.md`
-- `docs/CONTENT_GUIDE.md`
-- `docs/TECHNICAL.md`
+- `docs/dev/DESIGN.md`
+- `docs/dev/CONTENT_GUIDE.md`
+- `docs/dev/TECHNICAL.md`
