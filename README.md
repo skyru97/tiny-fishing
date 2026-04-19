@@ -26,6 +26,8 @@ Tiny Fishing is also available on CurseForge.
 
 CurseForge page: link to be added.
 
+You can also download it manually from GitHub.
+
 ## How To Fish
 
 1. Equip the `Fishing Rod`.
@@ -90,9 +92,52 @@ The `Fishing Rod` is crafted in "Pocket crafting" with:
 
 ## Installation
 
-1. Download the latest `tiny-fishing` jar.
-2. Place it in your world's `mods` folder.
+### Option 1. CurseForge
+
+1. Download the latest Tiny Fishing release from CurseForge.
+2. Place the downloaded `.jar` file in your world's `mods` folder.
 3. Start or reload the world.
+
+### Option 2. GitHub Release / Manual Download
+
+1. Open the GitHub repository.
+2. Download the latest release jar from the GitHub Releases page.
+3. Place `tiny-fishing-1.0.jar` in your world's `mods` folder.
+4. Start or reload the world.
+
+### Option 3. Build From Source
+
+If you download the source code as a ZIP from GitHub, it will not include the `build/` folder or a prebuilt jar.
+
+1. Download or clone the repository source.
+2. Build the mod locally with:
+
+```bash
+./gradlew jar
+```
+
+3. After building, the jar will be created in:
+
+`build/libs/tiny-fishing-1.0.jar`
+
+4. Place that jar in your world's `mods` folder.
+5. Start or reload the world.
+
+### Hytale Mods Folder
+
+Place the jar inside the `mods` folder of the world where you want to use the mod.
+
+Example path on macOS:
+
+`~/Library/Application Support/Hytale/UserData/Saves/<YourWorldName>/mods`
+
+Example path on Windows:
+
+`%AppData%/Hytale/UserData/Saves/<YourWorldName>/mods`
+
+Example path on Linux:
+
+`~/.local/share/Hytale/UserData/Saves/<YourWorldName>/mods`
 
 ## Release Notes
 
